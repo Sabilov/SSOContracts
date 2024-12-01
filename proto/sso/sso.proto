@@ -1,15 +1,90 @@
 syntax = "proto3";
 
-package auth;
+package ssoAuth;
 
 option go_package = "sabilov.sso.v1;ssov1";
 
-service Auth {
-  rpc Register (RegisterRequest) returns (RegisterResponse);
+service UserAuthentication {
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Logout (LogoutRequest) returns (LogoutResponse);
+  rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
+}
+
+service UserData {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc GetUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse);
+  rpc UpdateUserInfo (UpdateUserInfoRequest) returns (UpdateUserInfoResponse);
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+  rpc EmailVerification (EmailVerificationRequest) returns (EmailVerificationResponse);
   rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
 }
 
+service UserAuthorization {
+  rpc Authorize (AuthorizeRequest) returns (AuthorizeResponse);
+  rpc GetToken (GetTokenRequest) returns (GetTokenResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+service AuditLogging {
+  rpc LogEvent (LogEventRequest) returns (LogEventResponse);
+  rpc GetAuthHistory (GetAuthHistoryRequest) returns (GetAuthHistoryResponse);
+}
+
+service AppManagement {
+  rpc RegisterApp (RegisterAppRequest) returns (RegisterAppResponse);
+  rpc DeleteApp (DeleteAppRequest) returns (DeleteAppResponse);
+  rpc GetAppData (GetAppDataRequest) returns (GetAppDataResponse);
+}
+
+service PermissionsManagement {
+  rpc GetUserRoles (GetUserRolesRequest) returns (GetUserRolesResponse);
+  rpc UpdateUserRoles (UpdateUserRolesRequest) returns (UpdateUserRolesResponse);
+  rpc CheckPermission (CheckPermissionRequest) returns (CheckPermissionResponse);
+}
+
+service ExternalIntegration {
+  rpc LdapAuthenticate (LdapAuthenticateRequest) returns (LdapAuthenticateResponse);
+  rpc GoogleAuthenticate (GoogleAuthenticateRequest) returns (GoogleAuthenticateResponse);
+}
+
+service Safety {
+  rpc HashPassword (HashPasswordRequest) returns (HashPasswordResponse);
+}
+
+// UserAuthentication method messages
+// Login
+message LoginRequest {
+  string login = 1; // Registered user login
+  string email = 2; // Registered user Email
+  string password = 3; // Registered user password
+  int32 app_id = 4; // Application ID
+}
+
+message LoginResponse {
+  string token = 1; //Logged user Auth token
+}
+
+// Logout
+message LogoutRequest {
+  string token = 1;
+}
+
+message LogoutResponse {
+  string message = 1;
+}
+
+// ResetPassword
+message ResetPasswordRequest {
+  string email = 1;
+  string new_password = 2;
+}
+
+message ResetPasswordResponse {
+  string message = 1;
+}
+
+// UserData method messages
+// Register
 message RegisterRequest {
   string email = 1; // Register user Email
   string password = 2; // Register user password
@@ -19,20 +94,194 @@ message RegisterResponse {
   int64 user_id = 1; // Registered user ID
 }
 
-message LoginRequest {
-  string email = 1; // Register user Email
-  string password = 2; // Register user password
-  int32 app_id = 3; // Application ID
+// GetUserInfo
+message GetUserInfoRequest {
+  string user_id = 1;
 }
 
-message LoginResponse {
-  string token = 1; //Logged user Auth token
+message GetUserInfoResponse {
+  string username = 1;
+  string email = 2;
+  bool is_admin = 3;
 }
 
+// UpdateUserInfo
+message UpdateUserInfoRequest {
+  string user_id = 1;
+  string new_email = 2;
+}
+
+message UpdateUserInfoResponse {
+  string message = 1;
+}
+
+// DeleteUser
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// EmailVerification
+message EmailVerificationRequest {
+  string user_id = 1;
+  string verification_code = 2;
+}
+
+message EmailVerificationResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// IsAdmin
 message IsAdminRequest {
   int64 user_id = 1; // User ID to validate
 }
 
 message IsAdminResponse {
   bool is_admin = 1; //indicates user is admin
+}
+
+// UserAuthorization method messages
+// Authorize
+message AuthorizeRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthorizeResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// GetToken
+message GetTokenRequest {
+  string user_id = 1;
+}
+
+message GetTokenResponse {
+  string token = 1;
+}
+
+// ValidateToken
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  bool valid = 1;
+}
+
+// AuditLogging method messages
+// LogEvent
+message LogEventRequest {
+  string user_id = 1;
+  string event_description = 2;
+}
+
+message LogEventResponse {
+  string message = 1;
+}
+// GetAuthHistory
+message GetAuthHistoryRequest {
+  string user_id = 1;
+}
+
+message GetAuthHistoryResponse {
+  repeated string events = 1;
+}
+
+// AppManagement method messages
+// RegisterApp
+message RegisterAppRequest {
+  string app_name = 1;
+}
+
+message RegisterAppResponse {
+  string app_id = 1;
+  string message = 2;
+}
+
+// DeleteApp
+message DeleteAppRequest {
+  string app_id = 1;
+}
+
+message DeleteAppResponse {
+  string message = 1;
+}
+
+// GetAppData
+message GetAppDataRequest {
+  string app_id = 1;
+}
+
+message GetAppDataResponse {
+  string app_name = 1;
+  string app_status = 2;
+}
+
+// PermissionsManagement method messages
+// GetUserRoles
+message GetUserRolesRequest {
+  string user_id = 1;
+}
+
+message GetUserRolesResponse {
+  repeated string roles = 1;
+}
+
+// UpdateUserRoles
+message UpdateUserRolesRequest {
+  string user_id = 1;
+  repeated string roles = 2;
+}
+
+message UpdateUserRolesResponse {
+  string message = 1;
+}
+
+// CheckPermission
+message CheckPermissionRequest {
+  string user_id = 1;
+  string permission = 2;
+}
+
+message CheckPermissionResponse {
+  bool has_permission = 1;
+}
+
+// ExternalIntegration method messages
+// LdapAuthenticate
+message LdapAuthenticateRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LdapAuthenticateResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// GoogleAuthenticate
+message GoogleAuthenticateRequest {
+  string token = 1;
+}
+
+message GoogleAuthenticateResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Safety method messages
+// HashPassword
+message HashPasswordRequest {
+  string password = 1;
+}
+
+message HashPasswordResponse {
+  string hashed_password = 1;
 }
