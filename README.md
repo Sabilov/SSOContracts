@@ -1,2 +1,2 @@
 # SSOContracts
-Proto Contracts SSO Server (gRPC)
+Proto Contracts SSO Server (gRPC) v0.0.4
