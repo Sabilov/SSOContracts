@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserAuthentication_Login_FullMethodName         = "/ssoAuth.UserAuthentication/Login"
-	UserAuthentication_Logout_FullMethodName        = "/ssoAuth.UserAuthentication/Logout"
-	UserAuthentication_ResetPassword_FullMethodName = "/ssoAuth.UserAuthentication/ResetPassword"
+	UserAuthentication_Login_FullMethodName         = "/sso.UserAuthentication/Login"
+	UserAuthentication_Logout_FullMethodName        = "/sso.UserAuthentication/Logout"
+	UserAuthentication_ResetPassword_FullMethodName = "/sso.UserAuthentication/ResetPassword"
 )
 
 // UserAuthenticationClient is the client API for UserAuthentication service.
@@ -176,7 +176,7 @@ func _UserAuthentication_ResetPassword_Handler(srv interface{}, ctx context.Cont
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserAuthentication_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.UserAuthentication",
+	ServiceName: "sso.UserAuthentication",
 	HandlerType: (*UserAuthenticationServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -197,12 +197,12 @@ var UserAuthentication_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserData_Register_FullMethodName          = "/ssoAuth.UserData/Register"
-	UserData_GetUserInfo_FullMethodName       = "/ssoAuth.UserData/GetUserInfo"
-	UserData_UpdateUserInfo_FullMethodName    = "/ssoAuth.UserData/UpdateUserInfo"
-	UserData_DeleteUser_FullMethodName        = "/ssoAuth.UserData/DeleteUser"
-	UserData_EmailVerification_FullMethodName = "/ssoAuth.UserData/EmailVerification"
-	UserData_IsAdmin_FullMethodName           = "/ssoAuth.UserData/IsAdmin"
+	UserData_Register_FullMethodName          = "/sso.UserData/Register"
+	UserData_GetUserInfo_FullMethodName       = "/sso.UserData/GetUserInfo"
+	UserData_UpdateUserInfo_FullMethodName    = "/sso.UserData/UpdateUserInfo"
+	UserData_DeleteUser_FullMethodName        = "/sso.UserData/DeleteUser"
+	UserData_EmailVerification_FullMethodName = "/sso.UserData/EmailVerification"
+	UserData_IsAdmin_FullMethodName           = "/sso.UserData/IsAdmin"
 )
 
 // UserDataClient is the client API for UserData service.
@@ -456,7 +456,7 @@ func _UserData_IsAdmin_Handler(srv interface{}, ctx context.Context, dec func(in
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UserData_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.UserData",
+	ServiceName: "sso.UserData",
 	HandlerType: (*UserDataServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -489,327 +489,9 @@ var UserData_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	UserAuthorization_Authorize_FullMethodName     = "/ssoAuth.UserAuthorization/Authorize"
-	UserAuthorization_GetToken_FullMethodName      = "/ssoAuth.UserAuthorization/GetToken"
-	UserAuthorization_ValidateToken_FullMethodName = "/ssoAuth.UserAuthorization/ValidateToken"
-)
-
-// UserAuthorizationClient is the client API for UserAuthorization service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserAuthorizationClient interface {
-	Authorize(ctx context.Context, in *AuthorizeRequest, opts ...grpc.CallOption) (*AuthorizeResponse, error)
-	GetToken(ctx context.Context, in *GetTokenRequest, opts ...grpc.CallOption) (*GetTokenResponse, error)
-	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
-}
-
-type userAuthorizationClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewUserAuthorizationClient(cc grpc.ClientConnInterface) UserAuthorizationClient {
-	return &userAuthorizationClient{cc}
-}
-
-func (c *userAuthorizationClient) Authorize(ctx context.Context, in *AuthorizeRequest, opts ...grpc.CallOption) (*AuthorizeResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AuthorizeResponse)
-	err := c.cc.Invoke(ctx, UserAuthorization_Authorize_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userAuthorizationClient) GetToken(ctx context.Context, in *GetTokenRequest, opts ...grpc.CallOption) (*GetTokenResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTokenResponse)
-	err := c.cc.Invoke(ctx, UserAuthorization_GetToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userAuthorizationClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ValidateTokenResponse)
-	err := c.cc.Invoke(ctx, UserAuthorization_ValidateToken_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// UserAuthorizationServer is the server API for UserAuthorization service.
-// All implementations must embed UnimplementedUserAuthorizationServer
-// for forward compatibility.
-type UserAuthorizationServer interface {
-	Authorize(context.Context, *AuthorizeRequest) (*AuthorizeResponse, error)
-	GetToken(context.Context, *GetTokenRequest) (*GetTokenResponse, error)
-	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
-	mustEmbedUnimplementedUserAuthorizationServer()
-}
-
-// UnimplementedUserAuthorizationServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedUserAuthorizationServer struct{}
-
-func (UnimplementedUserAuthorizationServer) Authorize(context.Context, *AuthorizeRequest) (*AuthorizeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Authorize not implemented")
-}
-func (UnimplementedUserAuthorizationServer) GetToken(context.Context, *GetTokenRequest) (*GetTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetToken not implemented")
-}
-func (UnimplementedUserAuthorizationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
-}
-func (UnimplementedUserAuthorizationServer) mustEmbedUnimplementedUserAuthorizationServer() {}
-func (UnimplementedUserAuthorizationServer) testEmbeddedByValue()                           {}
-
-// UnsafeUserAuthorizationServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserAuthorizationServer will
-// result in compilation errors.
-type UnsafeUserAuthorizationServer interface {
-	mustEmbedUnimplementedUserAuthorizationServer()
-}
-
-func RegisterUserAuthorizationServer(s grpc.ServiceRegistrar, srv UserAuthorizationServer) {
-	// If the following call pancis, it indicates UnimplementedUserAuthorizationServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&UserAuthorization_ServiceDesc, srv)
-}
-
-func _UserAuthorization_Authorize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AuthorizeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserAuthorizationServer).Authorize(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserAuthorization_Authorize_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserAuthorizationServer).Authorize(ctx, req.(*AuthorizeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserAuthorization_GetToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserAuthorizationServer).GetToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserAuthorization_GetToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserAuthorizationServer).GetToken(ctx, req.(*GetTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserAuthorization_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ValidateTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserAuthorizationServer).ValidateToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserAuthorization_ValidateToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserAuthorizationServer).ValidateToken(ctx, req.(*ValidateTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// UserAuthorization_ServiceDesc is the grpc.ServiceDesc for UserAuthorization service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var UserAuthorization_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.UserAuthorization",
-	HandlerType: (*UserAuthorizationServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "Authorize",
-			Handler:    _UserAuthorization_Authorize_Handler,
-		},
-		{
-			MethodName: "GetToken",
-			Handler:    _UserAuthorization_GetToken_Handler,
-		},
-		{
-			MethodName: "ValidateToken",
-			Handler:    _UserAuthorization_ValidateToken_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "sso/sso.proto",
-}
-
-const (
-	AuditLogging_LogEvent_FullMethodName       = "/ssoAuth.AuditLogging/LogEvent"
-	AuditLogging_GetAuthHistory_FullMethodName = "/ssoAuth.AuditLogging/GetAuthHistory"
-)
-
-// AuditLoggingClient is the client API for AuditLogging service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AuditLoggingClient interface {
-	LogEvent(ctx context.Context, in *LogEventRequest, opts ...grpc.CallOption) (*LogEventResponse, error)
-	GetAuthHistory(ctx context.Context, in *GetAuthHistoryRequest, opts ...grpc.CallOption) (*GetAuthHistoryResponse, error)
-}
-
-type auditLoggingClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewAuditLoggingClient(cc grpc.ClientConnInterface) AuditLoggingClient {
-	return &auditLoggingClient{cc}
-}
-
-func (c *auditLoggingClient) LogEvent(ctx context.Context, in *LogEventRequest, opts ...grpc.CallOption) (*LogEventResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LogEventResponse)
-	err := c.cc.Invoke(ctx, AuditLogging_LogEvent_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *auditLoggingClient) GetAuthHistory(ctx context.Context, in *GetAuthHistoryRequest, opts ...grpc.CallOption) (*GetAuthHistoryResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetAuthHistoryResponse)
-	err := c.cc.Invoke(ctx, AuditLogging_GetAuthHistory_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// AuditLoggingServer is the server API for AuditLogging service.
-// All implementations must embed UnimplementedAuditLoggingServer
-// for forward compatibility.
-type AuditLoggingServer interface {
-	LogEvent(context.Context, *LogEventRequest) (*LogEventResponse, error)
-	GetAuthHistory(context.Context, *GetAuthHistoryRequest) (*GetAuthHistoryResponse, error)
-	mustEmbedUnimplementedAuditLoggingServer()
-}
-
-// UnimplementedAuditLoggingServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedAuditLoggingServer struct{}
-
-func (UnimplementedAuditLoggingServer) LogEvent(context.Context, *LogEventRequest) (*LogEventResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LogEvent not implemented")
-}
-func (UnimplementedAuditLoggingServer) GetAuthHistory(context.Context, *GetAuthHistoryRequest) (*GetAuthHistoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAuthHistory not implemented")
-}
-func (UnimplementedAuditLoggingServer) mustEmbedUnimplementedAuditLoggingServer() {}
-func (UnimplementedAuditLoggingServer) testEmbeddedByValue()                      {}
-
-// UnsafeAuditLoggingServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AuditLoggingServer will
-// result in compilation errors.
-type UnsafeAuditLoggingServer interface {
-	mustEmbedUnimplementedAuditLoggingServer()
-}
-
-func RegisterAuditLoggingServer(s grpc.ServiceRegistrar, srv AuditLoggingServer) {
-	// If the following call pancis, it indicates UnimplementedAuditLoggingServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&AuditLogging_ServiceDesc, srv)
-}
-
-func _AuditLogging_LogEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LogEventRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuditLoggingServer).LogEvent(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuditLogging_LogEvent_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuditLoggingServer).LogEvent(ctx, req.(*LogEventRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuditLogging_GetAuthHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAuthHistoryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuditLoggingServer).GetAuthHistory(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuditLogging_GetAuthHistory_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuditLoggingServer).GetAuthHistory(ctx, req.(*GetAuthHistoryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// AuditLogging_ServiceDesc is the grpc.ServiceDesc for AuditLogging service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var AuditLogging_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.AuditLogging",
-	HandlerType: (*AuditLoggingServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "LogEvent",
-			Handler:    _AuditLogging_LogEvent_Handler,
-		},
-		{
-			MethodName: "GetAuthHistory",
-			Handler:    _AuditLogging_GetAuthHistory_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "sso/sso.proto",
-}
-
-const (
-	AppManagement_RegisterApp_FullMethodName = "/ssoAuth.AppManagement/RegisterApp"
-	AppManagement_DeleteApp_FullMethodName   = "/ssoAuth.AppManagement/DeleteApp"
-	AppManagement_GetAppData_FullMethodName  = "/ssoAuth.AppManagement/GetAppData"
+	AppManagement_RegisterApp_FullMethodName = "/sso.AppManagement/RegisterApp"
+	AppManagement_DeleteApp_FullMethodName   = "/sso.AppManagement/DeleteApp"
+	AppManagement_GetAppData_FullMethodName  = "/sso.AppManagement/GetAppData"
 )
 
 // AppManagementClient is the client API for AppManagement service.
@@ -964,7 +646,7 @@ func _AppManagement_GetAppData_Handler(srv interface{}, ctx context.Context, dec
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AppManagement_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.AppManagement",
+	ServiceName: "sso.AppManagement",
 	HandlerType: (*AppManagementServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -985,9 +667,9 @@ var AppManagement_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	PermissionsManagement_GetUserRoles_FullMethodName    = "/ssoAuth.PermissionsManagement/GetUserRoles"
-	PermissionsManagement_UpdateUserRoles_FullMethodName = "/ssoAuth.PermissionsManagement/UpdateUserRoles"
-	PermissionsManagement_CheckPermission_FullMethodName = "/ssoAuth.PermissionsManagement/CheckPermission"
+	PermissionsManagement_GetUserRoles_FullMethodName    = "/sso.PermissionsManagement/GetUserRoles"
+	PermissionsManagement_UpdateUserRoles_FullMethodName = "/sso.PermissionsManagement/UpdateUserRoles"
+	PermissionsManagement_CheckPermission_FullMethodName = "/sso.PermissionsManagement/CheckPermission"
 )
 
 // PermissionsManagementClient is the client API for PermissionsManagement service.
@@ -1142,7 +824,7 @@ func _PermissionsManagement_CheckPermission_Handler(srv interface{}, ctx context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PermissionsManagement_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.PermissionsManagement",
+	ServiceName: "sso.PermissionsManagement",
 	HandlerType: (*PermissionsManagementServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -1163,8 +845,8 @@ var PermissionsManagement_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ExternalIntegration_LdapAuthenticate_FullMethodName   = "/ssoAuth.ExternalIntegration/LdapAuthenticate"
-	ExternalIntegration_GoogleAuthenticate_FullMethodName = "/ssoAuth.ExternalIntegration/GoogleAuthenticate"
+	ExternalIntegration_LdapAuthenticate_FullMethodName   = "/sso.ExternalIntegration/LdapAuthenticate"
+	ExternalIntegration_GoogleAuthenticate_FullMethodName = "/sso.ExternalIntegration/GoogleAuthenticate"
 )
 
 // ExternalIntegrationClient is the client API for ExternalIntegration service.
@@ -1286,7 +968,7 @@ func _ExternalIntegration_GoogleAuthenticate_Handler(srv interface{}, ctx contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var ExternalIntegration_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.ExternalIntegration",
+	ServiceName: "sso.ExternalIntegration",
 	HandlerType: (*ExternalIntegrationServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -1296,108 +978,6 @@ var ExternalIntegration_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GoogleAuthenticate",
 			Handler:    _ExternalIntegration_GoogleAuthenticate_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "sso/sso.proto",
-}
-
-const (
-	Safety_HashPassword_FullMethodName = "/ssoAuth.Safety/HashPassword"
-)
-
-// SafetyClient is the client API for Safety service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type SafetyClient interface {
-	HashPassword(ctx context.Context, in *HashPasswordRequest, opts ...grpc.CallOption) (*HashPasswordResponse, error)
-}
-
-type safetyClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewSafetyClient(cc grpc.ClientConnInterface) SafetyClient {
-	return &safetyClient{cc}
-}
-
-func (c *safetyClient) HashPassword(ctx context.Context, in *HashPasswordRequest, opts ...grpc.CallOption) (*HashPasswordResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(HashPasswordResponse)
-	err := c.cc.Invoke(ctx, Safety_HashPassword_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// SafetyServer is the server API for Safety service.
-// All implementations must embed UnimplementedSafetyServer
-// for forward compatibility.
-type SafetyServer interface {
-	HashPassword(context.Context, *HashPasswordRequest) (*HashPasswordResponse, error)
-	mustEmbedUnimplementedSafetyServer()
-}
-
-// UnimplementedSafetyServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedSafetyServer struct{}
-
-func (UnimplementedSafetyServer) HashPassword(context.Context, *HashPasswordRequest) (*HashPasswordResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HashPassword not implemented")
-}
-func (UnimplementedSafetyServer) mustEmbedUnimplementedSafetyServer() {}
-func (UnimplementedSafetyServer) testEmbeddedByValue()                {}
-
-// UnsafeSafetyServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to SafetyServer will
-// result in compilation errors.
-type UnsafeSafetyServer interface {
-	mustEmbedUnimplementedSafetyServer()
-}
-
-func RegisterSafetyServer(s grpc.ServiceRegistrar, srv SafetyServer) {
-	// If the following call pancis, it indicates UnimplementedSafetyServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
-	s.RegisterService(&Safety_ServiceDesc, srv)
-}
-
-func _Safety_HashPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HashPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SafetyServer).HashPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Safety_HashPassword_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SafetyServer).HashPassword(ctx, req.(*HashPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-// Safety_ServiceDesc is the grpc.ServiceDesc for Safety service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var Safety_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ssoAuth.Safety",
-	HandlerType: (*SafetyServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "HashPassword",
-			Handler:    _Safety_HashPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
