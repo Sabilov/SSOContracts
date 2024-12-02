@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ssoAuth;
+package sso;
 
 option go_package = "sabilov.sso.v1;ssov1";
 
@@ -19,17 +19,6 @@ service UserData {
   rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse);
 }
 
-service UserAuthorization {
-  rpc Authorize (AuthorizeRequest) returns (AuthorizeResponse);
-  rpc GetToken (GetTokenRequest) returns (GetTokenResponse);
-  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
-}
-
-service AuditLogging {
-  rpc LogEvent (LogEventRequest) returns (LogEventResponse);
-  rpc GetAuthHistory (GetAuthHistoryRequest) returns (GetAuthHistoryResponse);
-}
-
 service AppManagement {
   rpc RegisterApp (RegisterAppRequest) returns (RegisterAppResponse);
   rpc DeleteApp (DeleteAppRequest) returns (DeleteAppResponse);
@@ -45,10 +34,6 @@ service PermissionsManagement {
 service ExternalIntegration {
   rpc LdapAuthenticate (LdapAuthenticateRequest) returns (LdapAuthenticateResponse);
   rpc GoogleAuthenticate (GoogleAuthenticateRequest) returns (GoogleAuthenticateResponse);
-}
-
-service Safety {
-  rpc HashPassword (HashPasswordRequest) returns (HashPasswordResponse);
 }
 
 // UserAuthentication method messages
@@ -145,46 +130,7 @@ message IsAdminResponse {
   bool is_admin = 1; //indicates user is admin
 }
 
-// UserAuthorization method messages
-// Authorize
-message AuthorizeRequest {
-  string username = 1;
-  string password = 2;
-}
-
-message AuthorizeResponse {
-  bool success = 1;
-  string message = 2;
-}
-
-// GetToken
-message GetTokenRequest {
-  string user_id = 1;
-}
-
-message GetTokenResponse {
-  string token = 1;
-}
-
-// ValidateToken
-message ValidateTokenRequest {
-  string token = 1;
-}
-
-message ValidateTokenResponse {
-  bool valid = 1;
-}
-
 // AuditLogging method messages
-// LogEvent
-message LogEventRequest {
-  string user_id = 1;
-  string event_description = 2;
-}
-
-message LogEventResponse {
-  string message = 1;
-}
 // GetAuthHistory
 message GetAuthHistoryRequest {
   string user_id = 1;
@@ -274,14 +220,4 @@ message GoogleAuthenticateRequest {
 message GoogleAuthenticateResponse {
   bool success = 1;
   string message = 2;
-}
-
-// Safety method messages
-// HashPassword
-message HashPasswordRequest {
-  string password = 1;
-}
-
-message HashPasswordResponse {
-  string hashed_password = 1;
 }
