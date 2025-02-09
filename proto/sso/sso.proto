@@ -12,7 +12,7 @@ service UserAuthentication {
 
 service UserData {
   rpc Register (RegisterRequest) returns (RegisterResponse);
-  rpc GetUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse);
+  rpc UserInfo (UserInfoRequest) returns (UserInfoResponse);
   rpc UpdateUserInfo (UpdateUserInfoRequest) returns (UpdateUserInfoResponse);
   rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
   rpc EmailVerification (EmailVerificationRequest) returns (EmailVerificationResponse);
@@ -22,11 +22,11 @@ service UserData {
 service AppManagement {
   rpc RegisterApp (RegisterAppRequest) returns (RegisterAppResponse);
   rpc DeleteApp (DeleteAppRequest) returns (DeleteAppResponse);
-  rpc GetAppData (GetAppDataRequest) returns (GetAppDataResponse);
+  rpc AppData (AppDataRequest) returns (AppDataResponse);
 }
 
 service PermissionsManagement {
-  rpc GetUserRoles (GetUserRolesRequest) returns (GetUserRolesResponse);
+  rpc UserRoles (UserRolesRequest) returns (UserRolesResponse);
   rpc UpdateUserRoles (UpdateUserRolesRequest) returns (UpdateUserRolesResponse);
   rpc CheckPermission (CheckPermissionRequest) returns (CheckPermissionResponse);
 }
@@ -80,11 +80,11 @@ message RegisterResponse {
 }
 
 // GetUserInfo
-message GetUserInfoRequest {
+message UserInfoRequest {
   string user_id = 1;
 }
 
-message GetUserInfoResponse {
+message UserInfoResponse {
   string username = 1;
   string email = 2;
   bool is_admin = 3;
@@ -132,11 +132,11 @@ message IsAdminResponse {
 
 // AuditLogging method messages
 // GetAuthHistory
-message GetAuthHistoryRequest {
+message AuthHistoryRequest {
   string user_id = 1;
 }
 
-message GetAuthHistoryResponse {
+message AuthHistoryResponse {
   repeated string events = 1;
 }
 
@@ -161,22 +161,22 @@ message DeleteAppResponse {
 }
 
 // GetAppData
-message GetAppDataRequest {
+message AppDataRequest {
   string app_id = 1;
 }
 
-message GetAppDataResponse {
+message AppDataResponse {
   string app_name = 1;
   string app_status = 2;
 }
 
 // PermissionsManagement method messages
 // GetUserRoles
-message GetUserRolesRequest {
+message UserRolesRequest {
   string user_id = 1;
 }
 
-message GetUserRolesResponse {
+message UserRolesResponse {
   repeated string roles = 1;
 }
 
