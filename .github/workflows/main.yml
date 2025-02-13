@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate gRPC and validate files
         run: |
-          protoc-gen-validate --version
+          protoc-gen-go --version
 #      - name: Check generated files
 #        run: |
 #          git diff --exit-code generated/
