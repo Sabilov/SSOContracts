@@ -1,1 +1,24 @@
+name: Deploy Nuxt App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./golangDeployApp
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - run: corepack enable
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
 
