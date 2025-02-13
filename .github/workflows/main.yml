@@ -1,4 +1,4 @@
-name: Deploy Nuxt App
+name: Generate gRPC Files
 
 on:
   push:
@@ -8,17 +8,26 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./golangDeployApp
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - run: corepack enable
-
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.23'
+          go-version: '1.23' # Укажите нужную версию Go
 
+      - name: Install protoc
+        run: |
+          sudo apt-get install -y protobuf-compiler
+          go get google.golang.org/protobuf/cmd/protoc-gen-go
+          go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
+          go get github.com/envoyproxy/protoc-gen-validate
+
+      - name: Generate gRPC and validate files
+        run: |
+          protoc-gen-validate --version
+#      - name: Check generated files
+#        run: |
+#          git diff --exit-code generated/
