@@ -27,7 +27,7 @@ jobs:
           echo "$GOPATH/bin" >> $GITHUB_PATH
 
       - name: Generate gRPC and validate files
-        run: protoc-gen-go --version
+        run: ls -al
 #      - name: Check generated files
 #        run: |
 #          git diff --exit-code generated/
