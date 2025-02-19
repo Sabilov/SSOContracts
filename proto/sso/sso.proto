@@ -76,7 +76,7 @@ message RegisterRequest {
 }
 
 message RegisterResponse {
-  int64 user_id = 1; // Registered user ID
+  string user_id = 1; // Registered user ID
 }
 
 // GetUserInfo
@@ -123,7 +123,7 @@ message EmailVerificationResponse {
 
 // IsAdmin
 message IsAdminRequest {
-  int64 user_id = 1; // User ID to validate
+  string user_id = 1; // User ID to validate
 }
 
 message IsAdminResponse {
@@ -147,13 +147,13 @@ message RegisterAppRequest {
 }
 
 message RegisterAppResponse {
-  string app_id = 1;
+  int32 app_id = 1;
   string message = 2;
 }
 
 // DeleteApp
 message DeleteAppRequest {
-  string app_id = 1;
+  int32 app_id = 1;
 }
 
 message DeleteAppResponse {
@@ -162,7 +162,7 @@ message DeleteAppResponse {
 
 // GetAppData
 message AppDataRequest {
-  string app_id = 1;
+  int32 app_id = 1;
 }
 
 message AppDataResponse {
