@@ -76,12 +76,12 @@ message RegisterRequest {
 }
 
 message RegisterResponse {
-  uint64 user_id = 1; // Registered user ID
+  int32 user_id = 1; // Registered user ID
 }
 
 // GetUserInfo
 message UserInfoRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
 }
 
 message UserInfoResponse {
@@ -92,7 +92,7 @@ message UserInfoResponse {
 
 // UpdateUserInfo
 message UpdateUserInfoRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
   string new_email = 2;
 }
 
@@ -102,7 +102,7 @@ message UpdateUserInfoResponse {
 
 // DeleteUser
 message DeleteUserRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
 }
 
 message DeleteUserResponse {
@@ -112,7 +112,7 @@ message DeleteUserResponse {
 
 // EmailVerification
 message EmailVerificationRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
   string verification_code = 2;
 }
 
@@ -123,7 +123,7 @@ message EmailVerificationResponse {
 
 // IsAdmin
 message IsAdminRequest {
-  uint64 user_id = 1; // User ID to validate
+  int32 user_id = 1; // User ID to validate
 }
 
 message IsAdminResponse {
@@ -133,7 +133,7 @@ message IsAdminResponse {
 // AuditLogging method messages
 // GetAuthHistory
 message AuthHistoryRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
 }
 
 message AuthHistoryResponse {
@@ -173,7 +173,7 @@ message AppDataResponse {
 // PermissionsManagement method messages
 // GetUserRoles
 message UserRolesRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
 }
 
 message UserRolesResponse {
@@ -182,7 +182,7 @@ message UserRolesResponse {
 
 // UpdateUserRoles
 message UpdateUserRolesRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
   repeated string roles = 2;
 }
 
@@ -192,7 +192,7 @@ message UpdateUserRolesResponse {
 
 // CheckPermission
 message CheckPermissionRequest {
-  uint64 user_id = 1;
+  int32 user_id = 1;
   string permission = 2;
 }
 
